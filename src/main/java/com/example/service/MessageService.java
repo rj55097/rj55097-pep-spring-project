@@ -17,10 +17,13 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
-    // // #3 
-    // public Message postMessage(Message message) {
-    //     return messageRepository.
-    // }
+    // #3 
+    public Message postMessage(Message message) {
+        if (message.getMessageText().length() > 255 || message.getMessageText().equals("")) {
+            return null;
+        }
+        return messageRepository.save(message);
+    }
 
     // #4
     public List<Message> getMessageList(){

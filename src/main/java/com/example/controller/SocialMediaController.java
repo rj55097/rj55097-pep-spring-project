@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,13 +59,32 @@ public class SocialMediaController {
     //     return newAccount;
     // }
 
-    // #2 49:30
-
-    // // #3
-    // @PostMapping("/messages")
-    // public @ResponseBody Message postMessage(Message message) {
-    //     return messageService.postMessage(message);
+    // #1
+    // @PostMapping("/register")
+    // public ResponseEntity<Void> (@RequestBody Account account) {
+    //     accountService.register(Account account);
+    //     return ResponseEntity.status(HttpStatus.CREATED)
+    //         .body("Succesfully registered");
     // }
+
+    // #2 49:30
+    // @PostMapping("/login")
+    // public ResponseEntity<Void> (@RequestBody Account account) throws AuthenticationException {
+    //     accountService.login(account.getUsername(), account.getPassword());
+    //     return ResponseEntity.noContent()
+    //         .header("username", account.getUsername())
+    //         .build();
+    // }
+
+    // #3
+    @PostMapping("/messages")
+    public ResponseEntity<Message> postMessage(Message message) {
+        Message postedMessage = messageService.postMessage(message);
+        if (postedMessage == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(postedMessage);
+    }
 
     // #4
     @GetMapping("/messages")
