@@ -27,10 +27,6 @@ public class MessageService {
         if(message.getMessageText() == null || message.getMessageText().isEmpty() || message.getMessageText().length() > 255) {
             return null;
         }
-        // check if postedBy is valid
-        if (message.getPostedBy() == null) {
-            return null;
-        }
 
         return messageRepository.save(message);
     }
