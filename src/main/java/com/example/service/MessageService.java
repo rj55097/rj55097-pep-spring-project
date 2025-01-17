@@ -1,6 +1,7 @@
 package com.example.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,26 @@ public class MessageService {
     // #5
     public Message getMessageById(Integer messageId) {
         return messageRepository.findById(messageId).orElse(null);
+    }
+
+    // #7
+    public Integer updateMessage(Integer messageId, String newMessageText) {
+        // checks/conditions
+        if (newMessageText.isBlank() || newMessageText.length() > 255) {
+            return 0;
+        }
+    
+        // check if the message exists
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if (optionalMessage.isEmpty()) {
+            return 0;
+        }
+    
+        // update message
+        Message message = optionalMessage.get();
+        message.setMessageText(newMessageText);
+        messageRepository.save(message);
+        return 1;
     }
 
     // #8

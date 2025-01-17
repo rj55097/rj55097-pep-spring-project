@@ -100,6 +100,21 @@ public class SocialMediaController {
         return messageService.getMessageById(messageId);
     }
 
+    // #6 
+
+    // #7
+    @PatchMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> updateMessage(@PathVariable Integer messageId, @RequestBody Message message) {
+        String newMessageText = message.getMessageText();
+        Integer rowsUpdated = messageService.updateMessage(messageId, newMessageText);
+
+        if (rowsUpdated == 1) {
+            return ResponseEntity.status(HttpStatus.OK).body(1);
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(0);
+        }
+    }
+
     // #8
     @GetMapping("/accounts/{accountId}/messages")
     @ResponseStatus(HttpStatus.OK)
