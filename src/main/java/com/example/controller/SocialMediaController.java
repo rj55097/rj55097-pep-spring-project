@@ -101,6 +101,16 @@ public class SocialMediaController {
     }
 
     // #6 
+    @DeleteMapping("/messages/{messageId}")
+    public ResponseEntity<Integer> deleteMessage(@PathVariable Integer messageId) {
+        Integer rowsUpdated = messageService.deleteMessage(messageId);
+
+        if (rowsUpdated == 1) {
+            return ResponseEntity.status(HttpStatus.OK).body(1);
+        } else {
+            return ResponseEntity.status(HttpStatus.OK).body(null);
+        }
+    }
 
     // #7
     @PatchMapping("/messages/{messageId}")

@@ -36,6 +36,18 @@ public class MessageService {
         return messageRepository.findById(messageId).orElse(null);
     }
 
+    // #6
+    public Integer deleteMessage(Integer messageId) {
+        // check if the message exists
+        Optional<Message> optionalMessage = messageRepository.findById(messageId);
+        if (optionalMessage.isEmpty()) {
+            return 0;
+        }
+
+        messageRepository.deleteById(messageId);
+        return 1;
+    }
+
     // #7
     public Integer updateMessage(Integer messageId, String newMessageText) {
         // checks/conditions
