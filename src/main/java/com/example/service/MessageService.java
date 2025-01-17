@@ -28,7 +28,7 @@ public class MessageService {
             return null;
         }
         // check if postedBy is valid
-        if (!accountRepository.existsById(message.getPostedBy())) {
+        if (message.getPostedBy() == null) {
             return null;
         }
 
