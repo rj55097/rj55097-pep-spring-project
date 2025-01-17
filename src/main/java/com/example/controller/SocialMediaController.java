@@ -12,6 +12,7 @@ import com.example.entity.Account;
 import com.example.entity.Message;
 import com.example.exception.DuplicateUsernameException;
 import com.example.exception.RegistrationException;
+import com.example.repository.AccountRepository;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -27,6 +28,7 @@ public class SocialMediaController {
 
     private AccountService accountService;
     private MessageService messageService;
+    AccountRepository accountRepository;
 
     @Autowired
     public SocialMediaController(AccountService accountService, MessageService messageService) {
@@ -34,48 +36,7 @@ public class SocialMediaController {
         this.messageService = messageService;
     }
 
-    // @PostMapping("/register")
-    // public User register(@RequestBody User newUser) {
-    //     // Logic to register a new user
-    // }
-
-    // @PostMapping("/login")
-    // public User login(@RequestBody LoginRequest loginRequest) {
-    //     // Logic to authenticate user login
-    // }
-
-    // @GetMapping("/{userId}")
-    // public User getUserProfile(@PathVariable Long userId) {
-    //     // Logic to retrieve user profile
-    // }
-
-    // @PutMapping("/{userId}")
-    // public User updateUserProfile(@PathVariable Long userId, @RequestBody User updatedUser) {
-    //     // Logic to update user profile
-    // }
-
-    // ----------------------------------------------------------------------------------------------------
-
-    // @PostMapping(value = "/register")
-    // public Account register(@RequestBody Account newAccount){
-    //     return newAccount;
-    // }
-
     // #1
-    // @PostMapping("/register")
-    // public ResponseEntity<Void> (@RequestBody Account account) {
-    //     accountService.register(Account account);
-    //     return ResponseEntity.status(HttpStatus.CREATED)
-    //         .body("Succesfully registered");
-    // }
-    // @PostMapping("/register")
-    // public ResponseEntity<Account> registerAccount(Account account)  {
-    //     Account registeredAccount = accountService.registerAccount(account);
-    //     if (registeredAccount == null) {
-    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-    //     }
-    //     return ResponseEntity.status(HttpStatus.OK).body(registeredAccount);
-    // }
     @PostMapping("/register")
     public ResponseEntity<Account> registerAccount(@RequestBody Account account) {
         try {
@@ -88,16 +49,18 @@ public class SocialMediaController {
         }
     }
 
-    // #2 49:30
-    // @PostMapping("/login")
-    // public ResponseEntity<Void> (@RequestBody Account account) throws AuthenticationException {
-    //     accountService.login(account.getUsername(), account.getPassword());
-    //     return ResponseEntity.noContent()
-    //         .header("username", account.getUsername())
-    //         .build();
-    // }
+    // #2
+    @PostMapping("/login")
+    public ResponseEntity<Account> login(@RequestBody Account account) {
+        Account verifiedAccount = accountService.login(account.getUsername(), account.getPassword());
+        if (verifiedAccount != null) {
+            return ResponseEntity.ok(verifiedAccount);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
-    // #3 not working
+    // #3
     @PostMapping("/messages")
     public ResponseEntity<Message> postMessage(Message message) {
         Message postedMessage = messageService.postMessage(message);
