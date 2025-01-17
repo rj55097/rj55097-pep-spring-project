@@ -66,6 +66,11 @@ public class SocialMediaController {
     //     return ResponseEntity.status(HttpStatus.CREATED)
     //         .body("Succesfully registered");
     // }
+    // @PostMapping("/register")
+    // public ResponseEntity<Account> registerAccount(Account account)  {
+    //     Account registeredAccount = accountService.registerAccount(account);
+    //     if ()
+    // }
 
     // #2 49:30
     // @PostMapping("/login")
@@ -76,7 +81,7 @@ public class SocialMediaController {
     //         .build();
     // }
 
-    // #3
+    // #3 not working
     @PostMapping("/messages")
     public ResponseEntity<Message> postMessage(Message message) {
         Message postedMessage = messageService.postMessage(message);

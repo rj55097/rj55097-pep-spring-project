@@ -20,9 +20,15 @@ public class MessageService {
 
     // #3 
     public Message postMessage(Message message) {
+        // checks
         if (message.getMessageText().length() > 255 || message.getMessageText().equals("")) {
             return null;
         }
+        // check if postedBy is valid
+        // if (!accountRepository.existsById(message.getPostedBy())) {
+        //     return null;
+        // }
+
         return messageRepository.save(message);
     }
 
