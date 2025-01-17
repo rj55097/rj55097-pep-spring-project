@@ -58,8 +58,16 @@ public class SocialMediaController {
     //     return newAccount;
     // }
 
+    // #2 49:30
+
+    // // #3
+    // @PostMapping("/messages")
+    // public @ResponseBody Message postMessage(Message message) {
+    //     return messageService.postMessage(message);
+    // }
+
     // #4
-    @RequestMapping(method = RequestMethod.GET, value = "/messages")
+    @GetMapping("/messages")
     @ResponseStatus(HttpStatus.OK)
     public @ResponseBody List<Message> getMessageList() {
         return messageService.getMessageList();
