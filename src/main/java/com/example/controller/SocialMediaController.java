@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.entity.Account;
 import com.example.entity.Message;
+import com.example.exception.DuplicateUsernameException;
+import com.example.exception.RegistrationException;
 import com.example.service.AccountService;
 import com.example.service.MessageService;
 
@@ -69,8 +71,22 @@ public class SocialMediaController {
     // @PostMapping("/register")
     // public ResponseEntity<Account> registerAccount(Account account)  {
     //     Account registeredAccount = accountService.registerAccount(account);
-    //     if ()
+    //     if (registeredAccount == null) {
+    //         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+    //     }
+    //     return ResponseEntity.status(HttpStatus.OK).body(registeredAccount);
     // }
+    @PostMapping("/register")
+    public ResponseEntity<Account> registerAccount(@RequestBody Account account) {
+        try {
+            Account registeredAccount = accountService.registerAccount(account);
+            return ResponseEntity.status(HttpStatus.OK).body(registeredAccount);
+        } catch (DuplicateUsernameException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        } catch (RegistrationException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+    }
 
     // #2 49:30
     // @PostMapping("/login")
