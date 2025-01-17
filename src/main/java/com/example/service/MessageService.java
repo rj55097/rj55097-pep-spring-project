@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.entity.Message;
+import com.example.repository.AccountRepository;
 import com.example.repository.MessageRepository;
 
 
@@ -18,16 +19,18 @@ public class MessageService {
         this.messageRepository = messageRepository;
     }
 
+    AccountRepository accountRepository;
+
     // #3 
     public Message postMessage(Message message) {
         // checks
-        if (message.getMessageText().length() > 255 || message.getMessageText().equals("")) {
+        if(message.getMessageText() == null || message.getMessageText().isEmpty() || message.getMessageText().length() > 255) {
             return null;
         }
         // check if postedBy is valid
-        // if (!accountRepository.existsById(message.getPostedBy())) {
-        //     return null;
-        // }
+        if (!accountRepository.existsById(message.getPostedBy())) {
+            return null;
+        }
 
         return messageRepository.save(message);
     }
